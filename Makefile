@@ -6,31 +6,27 @@
 #    By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/21 15:48:41 by ahavu             #+#    #+#              #
-#    Updated: 2025/01/29 13:46:10 by ahavu            ###   ########.fr        #
+#    Updated: 2025/01/31 15:54:27 by ahavu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= so_long
 
 LIBMLX	= incl/MLX42/
-OS		= $(shell uname)
-ifeq ($(OS), Linux)
+ifeq ($(shell uname), Linux)
 	LIB = $(LIBMLX)/build/libmlx42.a -ldl -lglfw(3) -pthread -lm
-endif
-
-ifeq ($(OS), Darwin)
+ifeq ($(shell uname), Darwin)
 	LIB = $(LIBMLX)/build/libmlx42.a -lglfw(3) -framework Cocoa \
 		-framework OpenGL -framework IOKit
 endif
 
 SOURCES_PATH	= sources/
 SOURCES 		= $(SOURCES_PATH)so_long.c
-					
 OBJECTS			= $(SOURCES:.c=.o)
 HEADER			= so_long.h
 
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -I./incl
 
 all: libmlx $(NAME)
 

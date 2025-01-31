@@ -134,4 +134,3 @@ int32_t	main(void)
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
 }
-```
