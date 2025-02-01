@@ -6,7 +6,7 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 16:12:19 by ahavu             #+#    #+#             */
-/*   Updated: 2025/01/31 16:22:03 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/01 16:14:39 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,25 @@
 
 int main(int argc, char **argv)
 {
-	mlx_t	*mlx;
+	//mlx_t	*mlx;
 	t_game	*game;
 	
+	game = NULL;
 	if (argc != 2)
 	{
 		ft_error(2);
 		exit(EXIT_FAILURE);
-
-	/*mlx = mlx_init(WIDTH, HEIGHT, "so_long", true); // initialize the thing
+	}
+	if (!check_filetype(argv[1]))
+		ft_error(0);
+	initialize_map(argv[1], game);
+	parse_map(game);
+		/*mlx = mlx_init(WIDTH, HEIGHT, "so_long", true); // initialize the thing
 	if (!mlx)
 	{
 		ft_error(1);
 		exit(EXIT_FAILURE);
 	}*/
-	if (!check_input(argv[1]))
-		ft_error(0);
-	game->map = initialize_map(argv[1], &game);
 	
 	/*mlx_new_window();
 	mlx_image_to_window(mlx, img, 80, 80);

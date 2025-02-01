@@ -6,7 +6,7 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 13:37:58 by ahavu             #+#    #+#             */
-/*   Updated: 2025/01/31 16:41:57 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/01 17:20:00 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,44 +24,69 @@ int	check_filetype(char *arg)
 	return (0);
 }
 
-static void	check_symbols(char *line, t_game *game)
+static void	validate_symbols(t_game *game)
 {
-	if (ft_strchr(line, 'E'))
-	{
-		game->e += 1;
-		if (game->e > 1)
-			ft_error(3);
-	}
-	else if (ft_strchr(line, 'P'))
-	{
-		game->p += 1;
-		if (game->p > 1)
-			ft_error(4);
-	}
-	else if (ft_strchr(line, 'C'))
-		game->c += 1;
-	
+	if (game->exit > 1)
+		ft_error(3);
+	else if (game->player > 1)
+		ft_error(4);
+	else if (game->exit == 0)
+		ft_error(5);
+	else if (game->player == 0)
+		ft_error(6);
+	else if (game->coll < 1)
+		ft_error(7);
 }
 
-int	initialize_map(char *arg, t_game *game)
+static void	check_symbols(t_game *game)
+{
+	int i;
+	int	k;
+
+	i = 0;
+	while (game->map[i])
+	{
+		k = 0;
+		while(game->map[i][k])
+		{
+			if (game->map[i][k] == 'E')
+				game->exit += 1;
+			else if (game->map[i][k] == 'P')
+				game->player += 1;
+			else if (game->map[i][k] == 'C')
+				game->coll += 1;
+			else if (game->map[i][k] != '0' && game->map[i][k] != '1')
+				ft_error(8);
+			k++;
+		}
+		i++;
+	}
+	validate_symbols(game);
+}
+
+void	initialize_map(char *arg, t_game *game)
 {
 	char	*line;
 	int		fd;
-	int		len;
-	int		second_len;
+	int		i;
 
+	i = 0;
 	fd = open(arg, O_RDONLY);
+	if (fd == -1)
+		ft_error(8);
 	while (1)
 	{
 		line = get_next_line(fd);
-		len = ft_strlen(line);
-		check_symbols(line, game);
+		if (!line)
+			ft_error_free(1, game);
+		if (i == 0)
+			game->x = ft_strlen(line);
+		if (game->x != ft_strlen(line))
+			ft_error(8);
+		game->map[i] = line;
+		i++;
 	}
-	if (game->e == 0)
-		ft_error(5);
-	if (game->p == 0)
-		ft_error(6);
-	if (game->c < 1)
-		ft_error(7);
+	game->y = i;
+	check_symbols(game);
 	close(fd);
 }

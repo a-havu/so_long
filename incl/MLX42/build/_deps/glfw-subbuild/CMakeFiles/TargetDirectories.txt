@@ -1,3 +1,0 @@
-/Users/aino/Desktop/HIVE/P_so_long/MLX42/build/_deps/glfw-subbuild/CMakeFiles/glfw-populate.dir
-/Users/aino/Desktop/HIVE/P_so_long/MLX42/build/_deps/glfw-subbuild/CMakeFiles/edit_cache.dir
-/Users/aino/Desktop/HIVE/P_so_long/MLX42/build/_deps/glfw-subbuild/CMakeFiles/rebuild_cache.dir
