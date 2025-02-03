@@ -6,22 +6,32 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 13:37:58 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/01 17:20:00 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/03 16:16:33 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	check_filetype(char *arg)
+void	check_input(int argc, char *arg)
 {
+	if (argc != 2)
+	{
+		ft_error(2);
+		exit(EXIT_FAILURE);
+	}
 	if (ft_strlen(arg) >= 5)
 	{
 		arg = arg + ft_strlen(arg) - 4;
 		if (ft_strncmp(arg, ".ber", 4))
-			return (0);
-		return (1);
+		{
+			ft_error(0);
+			exit(EXIT_FAILURE);
+		}
 	}
-	return (0);
+	else if (ft_strlen(arg) < 5)
+	{
+		
+	}
 }
 
 static void	validate_symbols(t_game *game)
@@ -68,25 +78,20 @@ void	initialize_map(char *arg, t_game *game)
 {
 	char	*line;
 	int		fd;
-	int		i;
 
-	i = 0;
 	fd = open(arg, O_RDONLY);
 	if (fd == -1)
 		ft_error(8);
-	while (1)
+	while (line)
 	{
 		line = get_next_line(fd);
-		if (!line)
-			ft_error_free(1, game);
-		if (i == 0)
+		if (game->y == 0)
 			game->x = ft_strlen(line);
 		if (game->x != ft_strlen(line))
 			ft_error(8);
-		game->map[i] = line;
-		i++;
+		game->map[game->y] = line;
+		game->y++;
 	}
-	game->y = i;
 	check_symbols(game);
 	close(fd);
 }
