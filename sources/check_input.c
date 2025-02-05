@@ -6,7 +6,7 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 13:37:58 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/03 16:16:33 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/05 16:30:17 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	check_input(int argc, char *arg)
 {
-	if (argc != 2)
+	if (argc > 2)
 	{
 		ft_error(2);
 		exit(EXIT_FAILURE);
@@ -30,7 +30,8 @@ void	check_input(int argc, char *arg)
 	}
 	else if (ft_strlen(arg) < 5)
 	{
-		
+		ft_error(0);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -66,7 +67,7 @@ static void	check_symbols(t_game *game)
 			else if (game->map[i][k] == 'C')
 				game->coll += 1;
 			else if (game->map[i][k] != '0' && game->map[i][k] != '1')
-				ft_error(8);
+				ft_error(9);
 			k++;
 		}
 		i++;
@@ -79,19 +80,27 @@ void	initialize_map(char *arg, t_game *game)
 	char	*line;
 	int		fd;
 
+	line = NULL;
 	fd = open(arg, O_RDONLY);
 	if (fd == -1)
 		ft_error(8);
-	while (line)
+	game->map = malloc(5 * sizeof(char *));
+	while (1)
 	{
 		line = get_next_line(fd);
+		if (!line)
+			break ;
+		if (ft_strchr(line, '\n'))
+			*ft_strchr(line, '\n') = '\0';
 		if (game->y == 0)
 			game->x = ft_strlen(line);
 		if (game->x != ft_strlen(line))
 			ft_error(8);
+		game->map[game->y] = ft_calloc((ft_strlen(line) + 1), sizeof(char));
 		game->map[game->y] = line;
 		game->y++;
 	}
+	game->map[game->y] = NULL;
 	check_symbols(game);
 	close(fd);
 }

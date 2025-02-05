@@ -6,7 +6,7 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 16:14:10 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/03 15:53:56 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/05 14:23:40 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,21 @@ typedef struct mlx_image
 
 typedef struct s_game
 {
-	char		**map;
-	char		**map_cpy;
-	t_game		*mlx_ptr;
-	int			exit;
-	int			player;
-	int			coll;
-	int			coll_check;
-	int			player_x;
-	int			player_y;
-	size_t		x;
-	size_t		y;
-	
+	char				**map;
+	char				**map_cpy;
+	struct s_game		*mlx_ptr;
+	int					exit;
+	int					exit_check;
+	int					player;
+	int					coll;
+	int					coll_check;
+	int					player_x;
+	int					player_y;
+	size_t				x;
+	size_t				y;
 } t_game;
 
-void	check_input(int argc, char **argv);
-void	flood_fill(t_game *game);
+void	check_input(int argc, char *argv);
 void	ft_error(int num);
 void	ft_error_free(int num, t_game *game);
 void	initialize_map(char *arg, t_game *game);

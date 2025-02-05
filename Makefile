@@ -6,18 +6,19 @@
 #    By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/21 15:48:41 by ahavu             #+#    #+#              #
-#    Updated: 2025/02/01 17:20:58 by ahavu            ###   ########.fr        #
+#    Updated: 2025/02/05 11:46:23 by ahavu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	:= so_long
 SHELL 	:= /bin/bash
-LIBMLX	:= MLX42/
+LIBMLX	:= MLX42
+LIBFT_PATH := incl/libft_plus/
 ifeq ($(shell uname), Linux)
-	LIB = $(LIBMLX)/build/libmlx42.a -ldl -lglfw(3) -pthread -lm
+	LIB = $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 endif
 ifeq ($(shell uname), Darwin)
-	LIB = $(LIBMLX)/build/libmlx42.a -lglfw(3) -framework Cocoa \
+	LIB = $(LIBMLX)/build/libmlx42.a -lglfw -framework Cocoa \
 		-framework OpenGL -framework IOKit
 endif
 
@@ -29,25 +30,29 @@ OBJECTS			:= $(SOURCES:.c=.o)
 HEADERS			:= -I ./incl -I $(LIBMLX)/include
 
 CC		:= cc
-CFLAGS	:= -Wall -Wextra -Werror -I./incl
+CFLAGS	:= -Wall -Wextra -Werror -g -I./incl
 
 all: libmlx $(NAME)
 
 libmlx:
 	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
-%.o: %.c
+$(SOURCES_PATH)%.o: $(SOURCES_PATH)%.c $(HEADERS)
 	$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS)
 
 $(NAME): $(OBJECTS)
-	$(CC) $(OBJECTS) $(LIB) $(HEADERS) -o $(NAME)
+	make -C $(LIBFT_PATH) --no-print-directory
+	$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT_PATH)libft_plus.a \
+		$(HEADERS) $(LIB) -o $(NAME)
 
 clean:
 	rm -rf $(OBJECTS)
 	rm -rf $(LIBMLX)/build
+	make clean -C $(LIBFT_PATH) --no-print-directory
 
 fclean: clean
 	rm -rf $(NAME)
+	make fclean -C $(LIBFT_PATH) --no-print-directory
 
 re: fclean all
 

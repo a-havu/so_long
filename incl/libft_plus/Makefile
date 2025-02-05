@@ -6,7 +6,7 @@
 #    By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 10:20:46 by ahavu             #+#    #+#              #
-#    Updated: 2025/01/21 09:52:58 by ahavu            ###   ########.fr        #
+#    Updated: 2025/02/05 11:43:56 by ahavu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,20 +46,18 @@ PRINTF_SRC = 	$(PRINTF_PATH)ft_printf.c $(PRINTF_PATH)print_char.c \
 LIBFT_OBJECTS = $(LIBFT_SRC:.c=.o)
 PRINTF_OBJECTS = $(PRINTF_SRC:.c=.o)
 
-HEADER = $(LIBFT_PATH)libft_plus.h $(PRINTF_PATH)libftprintf.h
-
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -I../
 
 all: $(NAME)
 
 $(NAME): $(LIBFT_OBJECTS) $(PRINTF_OBJECTS)
 	@ar -rcs $(NAME) $(LIBFT_OBJECTS) $(PRINTF_OBJECTS)
 
-$(LIBFT_PATH)%.o: $(LIBFT_PATH)%.c $(HEADER)
+$(LIBFT_PATH)%.o: $(LIBFT_PATH)%.c ../libft_plus.h
 	@$(CC) $(CFLAGS) -c $< -o $@
 	
-$(PRINTF_PATH)%.o: $(PRINTF_PATH)%.c $(HEADER)
+$(PRINTF_PATH)%.o: $(PRINTF_PATH)%.c ../libftprintf.h
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
