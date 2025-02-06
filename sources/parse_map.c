@@ -6,11 +6,26 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 15:17:34 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/05 16:54:50 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/06 17:24:51 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+static void	copy_map(t_game *game)
+{
+	int	y;
+
+	y = 0;
+	game->map_cpy = malloc((game->y + 1) * sizeof(char *));
+	while(game->map[y])
+	{
+		game->map_cpy[y] = ft_strdup(game->map[y]);
+		if (!game->map_cpy[y])
+			ft_error_free(1, game);
+		y++;
+	}
+}
 
 static void player_position(t_game *game)
 {
@@ -61,12 +76,21 @@ static void	outside_flood_fill(t_game *game)
 	p_x = game->player_x;
 	p_y = game->player_y;
 	flood_fill(game, p_x, p_y);
-	while(game->map[i])
+	while(game->map_cpy[i])
 	{
-		if (ft_strchr(game->map[i], 'C') || ft_strchr(game->map[i], 'C'))
+		if (ft_strchr(game->map_cpy[i], 'C')
+			|| ft_strchr(game->map_cpy[i], 'E'))
 			ft_error(10);
 		i++;
 	}
+	i = 0;
+	while (game->map_cpy[i])
+	{
+		free(game->map_cpy[i]);
+		game->map_cpy[i] = NULL;
+		i++;
+	}
+	free (game->map_cpy);
 }
 
 void	parse_map(t_game *game)
@@ -94,6 +118,6 @@ void	parse_map(t_game *game)
 			ft_error(8);
 		i++;
 	}
-	game->map_cpy = game->map;
+	copy_map(game);
 	outside_flood_fill(game);
 }

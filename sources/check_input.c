@@ -6,7 +6,7 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 13:37:58 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/05 16:30:17 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/06 13:03:43 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,17 @@
 void	check_input(int argc, char *arg)
 {
 	if (argc > 2)
-	{
 		ft_error(2);
-		exit(EXIT_FAILURE);
-	}
+	if (argc < 2)
+		ft_error(0);
 	if (ft_strlen(arg) >= 5)
 	{
 		arg = arg + ft_strlen(arg) - 4;
 		if (ft_strncmp(arg, ".ber", 4))
-		{
 			ft_error(0);
-			exit(EXIT_FAILURE);
-		}
 	}
 	else if (ft_strlen(arg) < 5)
-	{
 		ft_error(0);
-		exit(EXIT_FAILURE);
-	}
 }
 
 static void	validate_symbols(t_game *game)
@@ -49,23 +42,25 @@ static void	validate_symbols(t_game *game)
 		ft_error(7);
 }
 
-static void	check_symbols(t_game *game)
+void	check_symbols(t_game *game)
 {
 	int i;
 	int	k;
 
 	i = 0;
+	if (!game->map[i])
+		ft_error(11);
 	while (game->map[i])
 	{
 		k = 0;
 		while(game->map[i][k])
 		{
 			if (game->map[i][k] == 'E')
-				game->exit += 1;
+				game->exit++;
 			else if (game->map[i][k] == 'P')
-				game->player += 1;
+				game->player++;
 			else if (game->map[i][k] == 'C')
-				game->coll += 1;
+				game->coll++;
 			else if (game->map[i][k] != '0' && game->map[i][k] != '1')
 				ft_error(9);
 			k++;
@@ -75,16 +70,15 @@ static void	check_symbols(t_game *game)
 	validate_symbols(game);
 }
 
-void	initialize_map(char *arg, t_game *game)
+void	check_map(char *arg, t_game *game)
 {
 	char	*line;
 	int		fd;
 
-	line = NULL;
 	fd = open(arg, O_RDONLY);
 	if (fd == -1)
 		ft_error(8);
-	game->map = malloc(5 * sizeof(char *));
+	game->map = malloc(50 * sizeof(char *));
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -101,6 +95,5 @@ void	initialize_map(char *arg, t_game *game)
 		game->y++;
 	}
 	game->map[game->y] = NULL;
-	check_symbols(game);
 	close(fd);
 }

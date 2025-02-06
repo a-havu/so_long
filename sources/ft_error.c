@@ -6,7 +6,7 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:01:39 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/05 16:32:11 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/06 17:18:39 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ void	ft_error(int num)
 	else if (num == 9)
 		ft_putstr_fd("Error\nUnknown character found!!!👽\n", 2);
 	else if (num == 10)
-		ft_putstr_fd("Error\nYou're trapped!!!😱\n", 2);	
+		ft_putstr_fd("Error\nYou're trapped!!!😱\n", 2);
+	else if (num == 11)
+		ft_putstr_fd("Error\nEmpty map💔\n", 2);
 	exit(EXIT_FAILURE);
 }
 
@@ -45,14 +47,23 @@ void	ft_error_free(int num, t_game *game)
 
 	i = 0;
 	if (num == 1)
-	{
-		while (game->map)
-		{
-			free(game->map[i]);
-			game->map[i] = NULL;
-			i++;
-		}
 		ft_putstr_fd("Error\nThere's no memory or smth, smh🙄\n", 2);
+	else if (num == 2)
+		ft_putstr_fd("Error\nSomething went wrong with the graphics😔\n", 2);
+	while (game->map[i])
+	{
+		free(game->map[i]);
+		game->map[i] = NULL;
+		i++;
 	}
+	i = 0;
+	while (game->map_cpy[i])
+	{
+		free(game->map_cpy[i]);
+		game->map_cpy[i] = NULL;
+		i++;
+	}
+	free(game->map);
+	free(game);
 	exit(EXIT_FAILURE);
 }
