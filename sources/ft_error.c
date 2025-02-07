@@ -6,7 +6,7 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:01:39 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/06 17:18:39 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/07 14:20:30 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,8 @@ void	ft_error_free(int num, t_game *game)
 	free(game->map);
 	free(game);
 	exit(EXIT_FAILURE);
+}
+void	ft_exit(t_game *game)
+{
+	mlx_terminate(game->mlx_ptr);
 }

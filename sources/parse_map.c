@@ -6,7 +6,7 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 15:17:34 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/06 17:24:51 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/07 17:34:19 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,40 +29,41 @@ static void	copy_map(t_game *game)
 
 static void player_position(t_game *game)
 {
-	int	x;
 	int	y;
+	int	x;
 	
-	x = 1;
-	while (game->map[x])
+	y = 1;
+	while (game->map[y])
 	{
-		y = 0;
-		while (game->map[x][y])
+		x = 1;
+		while (game->map[y][x])
 		{
-			if (game->map[x][y] == 'P')
+			if (game->map[y][x] == 'P')
 			{
-				game->player_x = x;
-				game->player_y = y;
+				game->p_x = x;
+				game->p_y = y;
+				ft_printf("Player position initialized: y: %d x: %d\n", game->p_y, game->p_x);
 				break ;
 			}
-			y++;
+			x++;
 		}
-		x++;
-		if (game->player_x)
+		y++;
+		if (game->p_x)
 			break ;
 	}
 }
 
-static void	flood_fill(t_game *game, int x, int y)
+static void	flood_fill(t_game *game, int y, int x)
 {
-	game->map_cpy[x][y] = 'A';
-	if (game->map_cpy[x][y - 1] != '1' && game->map_cpy[x][y - 1] != 'A')
-		flood_fill(game, x, (y - 1));
-	if (game->map_cpy[x + 1][y] != '1' && game->map_cpy[x + 1][y] != 'A')
-		flood_fill(game, (x + 1), y);
-	if (game->map_cpy[x][y + 1] != '1' && game->map_cpy[x][y + 1] != 'A')
-		flood_fill(game, x, (y + 1));
-	if (game->map_cpy[x - 1][y] != '1' && game->map_cpy[x - 1][y] != 'A')
-		flood_fill(game, (x - 1), y);
+	game->map_cpy[y][x] = 'A';
+	if (game->map_cpy[y][x - 1] != '1' && game->map_cpy[y][x - 1] != 'A')
+		flood_fill(game, y, (x - 1));
+	if (game->map_cpy[y + 1][x] != '1' && game->map_cpy[y + 1][x] != 'A')
+		flood_fill(game, (y + 1), x);
+	if (game->map_cpy[y][x + 1] != '1' && game->map_cpy[y][x + 1] != 'A')
+		flood_fill(game, y, (x + 1));
+	if (game->map_cpy[y - 1][x] != '1' && game->map_cpy[y - 1][x] != 'A')
+		flood_fill(game, (y - 1), x);
 }
 
 static void	outside_flood_fill(t_game *game)
@@ -73,9 +74,9 @@ static void	outside_flood_fill(t_game *game)
 	
 	i = 0;
 	player_position(game);
-	p_x = game->player_x;
-	p_y = game->player_y;
-	flood_fill(game, p_x, p_y);
+	p_x = game->p_x;
+	p_y = game->p_y;
+	flood_fill(game, p_y, p_x);
 	while(game->map_cpy[i])
 	{
 		if (ft_strchr(game->map_cpy[i], 'C')
