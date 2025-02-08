@@ -6,7 +6,7 @@
 #    By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/21 15:48:41 by ahavu             #+#    #+#              #
-#    Updated: 2025/02/07 11:25:44 by ahavu            ###   ########.fr        #
+#    Updated: 2025/02/08 10:10:26 by ahavu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ endif
 SOURCES_PATH	:= sources/
 SOURCES 		:=	$(SOURCES_PATH)so_long.c $(SOURCES_PATH)check_input.c \
 					$(SOURCES_PATH)ft_error.c $(SOURCES_PATH)parse_map.c \
-					$(SOURCES_PATH)run_game.c $(SOURCES_PATH)move_player.c
+					$(SOURCES_PATH)run_game.c $(SOURCES_PATH)move_player.c \
+					$(SOURCES_PATH)ft_exit.c
 					
 OBJECTS			:= $(SOURCES:.c=.o)
 HEADERS			:= -I ./incl -I $(LIBMLX)/include

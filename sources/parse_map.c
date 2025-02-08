@@ -6,7 +6,7 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 15:17:34 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/07 17:34:19 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/08 11:46:41 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,21 @@ static void	copy_map(t_game *game)
 
 	y = 0;
 	game->map_cpy = malloc((game->y + 1) * sizeof(char *));
-	while(game->map[y])
+	while (game->map[y])
 	{
 		game->map_cpy[y] = ft_strdup(game->map[y]);
 		if (!game->map_cpy[y])
-			ft_error_free(1, game);
+			ft_error(2, game);
 		y++;
 	}
+	game->map_cpy[y] = NULL;
 }
 
-static void player_position(t_game *game)
+static void	player_position(t_game *game)
 {
 	int	y;
 	int	x;
-	
+
 	y = 1;
 	while (game->map[y])
 	{
@@ -42,7 +43,6 @@ static void player_position(t_game *game)
 			{
 				game->p_x = x;
 				game->p_y = y;
-				ft_printf("Player position initialized: y: %d x: %d\n", game->p_y, game->p_x);
 				break ;
 			}
 			x++;
@@ -71,17 +71,17 @@ static void	outside_flood_fill(t_game *game)
 	int	p_x;
 	int	p_y;
 	int	i;
-	
+
 	i = 0;
 	player_position(game);
 	p_x = game->p_x;
 	p_y = game->p_y;
 	flood_fill(game, p_y, p_x);
-	while(game->map_cpy[i])
+	while (game->map_cpy[i])
 	{
 		if (ft_strchr(game->map_cpy[i], 'C')
 			|| ft_strchr(game->map_cpy[i], 'E'))
-			ft_error(10);
+			ft_error(10, game);
 		i++;
 	}
 	i = 0;
@@ -96,27 +96,27 @@ static void	outside_flood_fill(t_game *game)
 
 void	parse_map(t_game *game)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (game->map[0][i])
 	{
 		if (game->map[0][i] != '1')
-			ft_error(8);
+			ft_error(8, game);
 		i++;
 	}
 	i = 0;
 	while (game->map[i])
 	{
 		if (game->map[i][0] != '1' || game->map[i][game->x - 1] != '1')
-			ft_error(8);
+			ft_error(8, game);
 		i++;
 	}
 	i = 0;
 	while (game->map[game->y - 1][i])
 	{
 		if (game->map[game->y - 1][i] != '1')
-			ft_error(8);
+			ft_error(8, game);
 		i++;
 	}
 	copy_map(game);

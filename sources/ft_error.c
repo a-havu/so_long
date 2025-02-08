@@ -6,20 +6,18 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:01:39 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/07 14:20:30 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/08 11:45:27 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	ft_error(int num)
+void	ft_error(int num, t_game *game)
 {
-	if (num == 0)
-		ft_putstr_fd("Error\nYou need to give a .ber file as argument🙄\n", 2);
-	else if (num == 1)
+	if (num == 1)
 		ft_putstr_fd("Error\nOh no! Initializing failed😤😤🥺\n", 2);
 	else if (num == 2)
-		ft_putstr_fd("Error\nInvalid argument!☝️\n", 2);
+		ft_putstr_fd("Error\nThere's no memory or smth, smh🙄\n", 2);
 	else if (num == 3)
 		ft_putstr_fd("Error\nToo many exits!!!🙅🙅\n", 2);
 	else if (num == 4)
@@ -38,36 +36,32 @@ void	ft_error(int num)
 		ft_putstr_fd("Error\nYou're trapped!!!😱\n", 2);
 	else if (num == 11)
 		ft_putstr_fd("Error\nEmpty map💔\n", 2);
-	exit(EXIT_FAILURE);
+	clean_up(game);
 }
 
-void	ft_error_free(int num, t_game *game)
+void	clean_up(t_game *game)
 {
 	int	i;
 
 	i = 0;
-	if (num == 1)
-		ft_putstr_fd("Error\nThere's no memory or smth, smh🙄\n", 2);
-	else if (num == 2)
-		ft_putstr_fd("Error\nSomething went wrong with the graphics😔\n", 2);
 	while (game->map[i])
 	{
 		free(game->map[i]);
 		game->map[i] = NULL;
 		i++;
 	}
-	i = 0;
-	while (game->map_cpy[i])
-	{
-		free(game->map_cpy[i]);
-		game->map_cpy[i] = NULL;
-		i++;
-	}
 	free(game->map);
+	if (game->map_cpy)
+	{
+		i = 0;
+		while (game->map_cpy[i])
+		{
+			free(game->map_cpy[i]);
+			game->map_cpy[i] = NULL;
+			i++;
+		}
+		free(game->map_cpy);
+	}
 	free(game);
 	exit(EXIT_FAILURE);
-}
-void	ft_exit(t_game *game)
-{
-	mlx_terminate(game->mlx_ptr);
 }

@@ -6,54 +6,64 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:26:02 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/07 17:44:35 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/08 10:58:04 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static void	validate_movement(t_game *game, char ax, int dir)
+static void	validate_movement_y(t_game *game, int dir)
 {
-	if (ax == 'y')
+	if (game->map[game->p_y + dir][game->p_x] != '1')
 	{
-		if (game->map[game->p_y][game->p_x + dir] != '1')
-		{
-			if (game->map[game->p_y][game->p_x + dir] == 'E'
-			&& game->collected != game->coll)
-				ft_printf("More blood is needed before slumbering!\n");
-			else
-			{	
-				game->map[game->p_y][game->p_x] = '0';
-				game->p_y += dir;
-			}
+		if (game->map[game->p_y + dir][game->p_x] == 'E'
+		&& game->collected != game->coll)
+			ft_printf("More blood is needed before slumbering!\n");
+		else if (game->map[game->p_y + dir][game->p_x] == 'E'
+		&& game->collected == game->coll)
+			ft_exit(game, 1);
+		else
+		{	
+			game->map[game->p_y][game->p_x] = '0';
+			game->p_y += dir;
 		}
 	}
-	else if (ax == 'x')
+}
+
+static void	validate_movement_x(t_game *game, int dir)
+{
+	if (game->map[game->p_y][game->p_x + dir] != '1')
 	{
-		if (game->map[game->p_y + dir][game->p_x] != '1')
+		if (game->map[game->p_y][game->p_x + dir] == 'E'
+		&& game->collected != game->coll)
+			ft_printf("More blood is needed before slumbering!\n");
+		else if (game->map[game->p_y][game->p_x + dir] == 'E'
+		&& game->collected == game->coll)
+			ft_exit(game, 1);
+		else
 		{
-			if (game->map[game->p_y + dir][game->p_x] == 'E'
-			&& game->collected != game->coll)
-				ft_printf("More blood is needed before slumbering!\n");
-			else
-			{
-				game->map[game->p_y][game->p_x] = '0';
-				game->p_x += dir;
-			}
+			game->map[game->p_y][game->p_x] = '0';
+			game->p_x += dir;
 		}
 	}
 }
 
 void	move_player(t_game *game, t_assets *assets, char ax, int dir)
 {
-	validate_movement(game, ax, dir);
+	if (ax == 'y')
+		validate_movement_y(game, dir);
+	else if (ax == 'x')
+		validate_movement_x(game, dir);
 	if (game->map[game->p_y][game->p_x] == 'C')
 	{
 		game->map[game->p_y][game->p_x] = '0';
-		render_map(game, assets);
+		render_map(game, assets, 'x');
 		game->collected++;
 	}
 	game->map[game->p_y][game->p_x] = 'P';
-	render_map(game, assets);
+	if (game->collected == game->coll)
+		render_map(game, assets, 'o');
+	else
+		render_map(game, assets, 'x');
 	ft_printf("BAT! You've flown %d times\n", game->moves++);
 }

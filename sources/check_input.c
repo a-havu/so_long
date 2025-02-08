@@ -6,7 +6,7 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 13:37:58 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/06 13:03:43 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/08 12:10:54 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,45 +15,57 @@
 void	check_input(int argc, char *arg)
 {
 	if (argc > 2)
-		ft_error(2);
+	{
+		ft_putstr_fd("Error\nInvalid argument!☝️\n", 2);
+		exit(EXIT_FAILURE);
+	}
 	if (argc < 2)
-		ft_error(0);
+	{
+		ft_putstr_fd("Error\nYou need to give a .ber file as argument🙄\n", 2);
+		exit(EXIT_FAILURE);
+	}
 	if (ft_strlen(arg) >= 5)
 	{
 		arg = arg + ft_strlen(arg) - 4;
 		if (ft_strncmp(arg, ".ber", 4))
-			ft_error(0);
+		{
+			ft_putstr_fd("Error\nYou need to give a .ber file as argument🙄\n", 2);
+			exit(EXIT_FAILURE);
+		}
 	}
 	else if (ft_strlen(arg) < 5)
-		ft_error(0);
+	{
+		ft_putstr_fd("Error\nYou need to give a .ber file as argument🙄\n", 2);
+		exit(EXIT_FAILURE);
+	}
 }
 
 static void	validate_symbols(t_game *game)
 {
 	if (game->exit > 1)
-		ft_error(3);
+		ft_error(3, game);
 	else if (game->player > 1)
-		ft_error(4);
+		ft_error(4, game);
 	else if (game->exit == 0)
-		ft_error(5);
+		ft_error(5, game);
 	else if (game->player == 0)
-		ft_error(6);
+		ft_error(6, game);
 	else if (game->coll < 1)
-		ft_error(7);
+		ft_error(7, game);
 }
 
 void	check_symbols(t_game *game)
 {
-	int i;
+	int	i;
 	int	k;
 
 	i = 0;
 	if (!game->map[i])
-		ft_error(11);
+		ft_error(11, game);
 	while (game->map[i])
 	{
 		k = 0;
-		while(game->map[i][k])
+		while (game->map[i][k])
 		{
 			if (game->map[i][k] == 'E')
 				game->exit++;
@@ -62,7 +74,7 @@ void	check_symbols(t_game *game)
 			else if (game->map[i][k] == 'C')
 				game->coll++;
 			else if (game->map[i][k] != '0' && game->map[i][k] != '1')
-				ft_error(9);
+				ft_error(9, game);
 			k++;
 		}
 		i++;
@@ -77,8 +89,8 @@ void	check_map(char *arg, t_game *game)
 
 	fd = open(arg, O_RDONLY);
 	if (fd == -1)
-		ft_error(8);
-	game->map = malloc(50 * sizeof(char *));
+		ft_error(8, game);
+	game->map = malloc(35 * sizeof(char *));
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -89,11 +101,10 @@ void	check_map(char *arg, t_game *game)
 		if (game->y == 0)
 			game->x = ft_strlen(line);
 		if (game->x != ft_strlen(line))
-			ft_error(8);
+			ft_error(8, game);
 		game->map[game->y] = ft_calloc((ft_strlen(line) + 1), sizeof(char));
 		game->map[game->y] = line;
 		game->y++;
 	}
-	game->map[game->y] = NULL;
 	close(fd);
 }

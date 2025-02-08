@@ -6,14 +6,14 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 16:14:10 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/07 16:05:07 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/08 12:13:00 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
-# define WIDTH 832
-# define HEIGHT 448
+# define WIDTH 1792
+# define HEIGHT 896
 
 # include "libft_plus.h"
 # include "libftprintf.h"
@@ -21,14 +21,14 @@
 # include <math.h>
 # include <fcntl.h>
 
-# define WALL			"assets/ruusut3.png"
-# define FLOOR			"assets/grass.png"
-# define COLL			"assets/nobleman.png"
-# define PLAYER			"assets/vampire.png"
-# define EXIT_CLOSED	"assets/closed_coffin.png"
-# define EXIT_OPEN		"assets/open_coffin.png"
+# define WALL			"assets/shrub128.png"
+# define FLOOR			"assets/grass128.png"
+# define COLL			"assets/nobleman128.png"
+# define PLAYER			"assets/vampire128.png"
+# define EXIT_CLOSED	"assets/closed_coffin128.png"
+# define EXIT_OPEN		"assets/open_coffin128.png"
 
-# define TILE 64
+# define TILE 128
 
 # define W 13
 # define A 0
@@ -76,12 +76,12 @@ typedef struct s_game
 void	check_input(int argc, char *argv);
 void	check_map(char *arg, t_game *game);
 void	check_symbols(t_game *game);
-void	ft_error(int num);
-void	ft_error_free(int num, t_game *game);
-void	ft_exit(t_game *game);
+void	clean_up(t_game *game);
+void	ft_error(int num, t_game *game);
+void	ft_exit(t_game *game, int message);
 void	move_player(t_game *game, t_assets *assets, char ax, int dir);
 void	parse_map(t_game *game);
-void	render_map(t_game *game, t_assets *assets);
+void	render_map(t_game *game, t_assets *assets, char c);
 void	run_game(t_game *game);
 
 #endif
