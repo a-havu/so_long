@@ -1,7 +1,0 @@
-/home/ahavu/so_long/CMakeFiles/mlx42.dir
-/home/ahavu/so_long/CMakeFiles/edit_cache.dir
-/home/ahavu/so_long/CMakeFiles/rebuild_cache.dir
-/home/ahavu/so_long/CMakeFiles/list_install_components.dir
-/home/ahavu/so_long/CMakeFiles/install.dir
-/home/ahavu/so_long/CMakeFiles/install/local.dir
-/home/ahavu/so_long/CMakeFiles/install/strip.dir
