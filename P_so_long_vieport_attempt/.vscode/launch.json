@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "Debug C Program with Arguments",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/so_long",  // Replace with your compiled executable name (e.g., `program_name.exe`)
+            "args": [
+                "${workspaceFolder}/maps/map_1.ber"  // Add any arguments your program needs here, like file paths
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+           // "externalConsole": false,  // Set to true if you want to open a new terminal for your program's output
+            "MIMode": "lldb",  // Use "gdb" if you're using GCC; use "lldb" for macOS with Clang
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+           // "miDebuggerPath": "/usr/bin/gdb",  // Path to gdb; change if it's different on your machine
+            "preLaunchTask": "build"  // Optional: define a task to compile your program before launching debugger
+        }
+    ]
+}
