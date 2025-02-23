@@ -6,7 +6,7 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 16:14:10 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/21 12:35:05 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/23 10:59:48 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@
 # include "libft_plus.h"
 # include "libftprintf.h"
 # include "../MLX42/include/MLX42/MLX42.h"
-# include <math.h>
 # include <fcntl.h>
+# include <time.h>
 
-# define WALL			"assets/shrub128.png"
-# define FLOOR			"assets/grass128.png"
-# define COLL			"assets/nobleman128.png"
-# define PLAYER			"assets/vampire128_2.png"
-# define EXIT_CLOSED	"assets/closed_coffin128.png"
-# define EXIT_OPEN		"assets/open_coffin128.png"
-# define PUDDLE			"assets/puddle_2.png"
+# define WALL			"assets/shrub.png"
+# define FLOOR			"assets/grass.png"
+# define COLL			"assets/nobleman.png"
+# define PLAYER			"assets/vampire.png"
+# define EXIT_CLOSED	"assets/closed_coffin.png"
+# define EXIT_OPEN		"assets/open_coffin.png"
+# define PUDDLE			"assets/puddle.png"
 # define GARLIC			"assets/garlic.png"
 
 # define TILE 128

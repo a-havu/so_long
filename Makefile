@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    DISABLED                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/21 15:48:41 by ahavu             #+#    #+#              #
-#    Updated: 2025/02/21 12:26:41 by ahavu            ###   ########.fr        #
+#    Updated: 2025/02/23 11:39:08 by ahavu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,10 +41,8 @@ libmlx:
 	git clone git@github.com:codam-coding-college/MLX42.git $(LIBMLX)
 	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
-$(SOURCES_PATH)%.o: $(SOURCES_PATH)%.c $(HEADERS)
-	$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS)
-
 $(NAME): $(OBJECTS)
+	@echo "making libft..."
 	@make -C $(LIBFT_PATH)
 	$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT_PATH)libft_plus.a \
 		$(HEADERS) $(LIB) -o $(NAME)

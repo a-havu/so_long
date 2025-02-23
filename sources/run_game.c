@@ -6,7 +6,7 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:32:50 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/21 12:48:58 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/23 10:31:38 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,8 @@ void	run_game(t_game *game)
 	render_collectibles(game, assets);
 	render_exits(game, assets);
 	render_player(game, assets);
-	if (assets->floor->count > 0)
+	ft_printf("floor count: %d\n", assets->floor->count);
+	if (assets->floor->count > 1)
 		render_garlic(game, assets);
 	param[0] = game;
 	param[1] = assets;

@@ -6,7 +6,7 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 08:27:47 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/21 10:07:05 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/23 11:19:35 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	render_map(t_game *game, t_assets *assets)
 			if (game->map[y][x] == '1')
 				mlx_image_to_window(game->mlx_ptr, assets->wall,
 					x * TILE, y * TILE);
-			if (game->map[y][x] != '1')
+			if (game->map[y][x] == '0' || game->map[y][x] == 'P')
 				mlx_image_to_window(game->mlx_ptr, assets->floor,
 					x * TILE, y * TILE);
 			x++;
@@ -115,25 +115,15 @@ void	render_garlic(t_game *game, t_assets *assets)
 	int32_t	x;
 	int32_t	y;
 	size_t	i;
-	size_t	k;
-
-	i = 0;
-	k = 4;
-	while (assets->garlic->count < assets->coll->count / 2)
+	
+	srand(time(NULL));
+	i = (size_t)rand() % assets->floor->count + 1;
+	while (assets->garlic->count < assets->floor->count / 7)
 	{
+		ft_printf("random i: %d\n", i);
 		x = assets->floor->instances[i].x / TILE;
 		y = assets->floor->instances[i].y / TILE;
-		if (game->map[y][x] == '0')
-			mlx_image_to_window(game->mlx_ptr, assets->garlic,
-				x * TILE, y * TILE);
-		if (i % 2)
-			i += 9;
-		else if (!(i % 2))
-		{
-			i = assets->floor->count - k;
-			k += 9;
-		}
-		if (i > assets->floor->count)
-			i = 5;
+		mlx_image_to_window(game->mlx_ptr, assets->garlic, x * TILE, y * TILE);
+		i = rand() % assets->floor->count + 1;
 	}
 }
