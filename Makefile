@@ -1,25 +1,26 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    DISABLED                                           :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/21 15:48:41 by ahavu             #+#    #+#              #
-#    Updated: 2025/02/23 11:39:08 by ahavu            ###   ########.fr        #
+#    Updated: 2025/02/25 09:36:59 by ahavu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	:= so_long
 SHELL 	:= /bin/bash
-LIBMLX	:= MLX42
+MLX_DIR	:= ./MLX42
+MLX_AR	:= ./MLX42/build/libmlx42.a
 LIBFT_PATH := incl/libft_plus/
 
 ifeq ($(shell uname), Linux)
-	LIB = $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
+	LIB = $(MLX_DIR)/build/libmlx42.a -ldl -lglfw -pthread -lm
 endif
 ifeq ($(shell uname), Darwin)
-	LIB = $(LIBMLX)/build/libmlx42.a -L/opt/homebrew/lib -lglfw \
+	LIB = $(MLX_DIR)/build/libmlx42.a -L/opt/homebrew/lib -lglfw \
 	-framework Cocoa -framework OpenGL -framework IOKit
 endif
 
@@ -30,33 +31,41 @@ SOURCES 		:=	$(SOURCES_PATH)so_long.c $(SOURCES_PATH)check_input.c \
 					$(SOURCES_PATH)ft_exit.c $(SOURCES_PATH)render.c
 					
 OBJECTS			:= $(SOURCES:.c=.o)
-HEADERS			:= -I ./incl -I $(LIBMLX)/include
+HEADERS			:= -I ./incl -I $(MLX_DIR)/include
 
 CC 		:= cc
 CFLAGS	:= -Wall -Wextra -Werror -I./incl
 
-all: libmlx $(NAME)
+all: $(NAME)
 
-libmlx:
-	git clone git@github.com:codam-coding-college/MLX42.git $(LIBMLX)
-	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
+$(MLX_AR):
+	@if [ ! -d "$(MLX_DIR)" ]; then \
+		echo -e "\033[36m-----Cloning MLX42-----\033[0m"; \
+		git clone git@github.com:codam-coding-college/MLX42.git; \
+	fi
+	@cmake $(MLX_DIR) -B $(MLX_DIR)/build && make -C $(MLX_DIR)/build -j4; \
 
-$(NAME): $(OBJECTS)
-	@echo "making libft..."
+$(NAME): $(MLX_AR) $(OBJECTS)
+	@echo -e "\033[36m-----making libft-----\033[0m"
 	@make -C $(LIBFT_PATH)
 	$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT_PATH)libft_plus.a \
 		$(HEADERS) $(LIB) -o $(NAME)
+	@echo -e "\033[36m---------everything is compiled, let's play!!!-------\033[0m"
+	@echo -e "\033[36m----👈👉you can move with WASD or arrow keys!👈👉----\033[0m"
+	@echo -e "\033[36m-------------😈kill enemies with SPACE😈-------------\033[0m"
 
 clean:
-	rm -rf $(OBJECTS)
-	rm -rf $(LIBMLX)/build
-	make clean -C $(LIBFT_PATH)
+	@rm -rf $(OBJECTS)
+	@rm -rf $(MLX_DIR)/build
+	@make clean -C $(LIBFT_PATH)
+	@echo -e "\033[36m-----headers removed-----\033[0m"
 
 fclean: clean
-	rm -rf $(NAME)
-	make fclean -C $(LIBFT_PATH)
-	rm -rf $(LIBMLX)
+	@rm -rf $(NAME)
+	@make fclean -C $(LIBFT_PATH)
+	@rm -rf $(MLX_DIR)
+	@echo -e "\033[36m-----everything cleaned-----\033[0m"
 
 re: fclean all
 
-.PHONY: all, clean, fclean, re, libmlx
+.PHONY: all, clean, fclean, re

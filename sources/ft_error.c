@@ -6,7 +6,7 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:01:39 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/20 09:34:38 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/26 14:23:05 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_error_assets(int num, t_game *game, t_assets *assets)
 	exit(EXIT_FAILURE);
 }
 
-void	clean_up(t_game *game)
+static void	clean_map(t_game *game)
 {
 	int	i;
 
@@ -64,17 +64,28 @@ void	clean_up(t_game *game)
 		i++;
 	}
 	free(game->map);
-	if (game->map_cpy)
+}
+
+static void	clean_map_copy(t_game *game)
+{
+	int	i;
+
+	i = 0;
+	while (game->map_cpy[i])
 	{
-		i = 0;
-		while (game->map_cpy[i])
-		{
-			free(game->map_cpy[i]);
-			game->map_cpy[i] = NULL;
-			i++;
-		}
-		free(game->map_cpy);
+		free(game->map_cpy[i]);
+		game->map_cpy[i] = NULL;
+		i++;
 	}
+	free(game->map_cpy);
+}
+
+void	clean_up(t_game *game)
+{
+	if (game->map)
+		clean_map(game);
+	if (game->map_cpy)
+		clean_map_copy(game);
 	if (game->mlx_ptr)
 		mlx_terminate(game->mlx_ptr);
 	free(game);

@@ -6,7 +6,7 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 08:27:47 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/23 11:19:35 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/25 09:34:07 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,15 +115,19 @@ void	render_garlic(t_game *game, t_assets *assets)
 	int32_t	x;
 	int32_t	y;
 	size_t	i;
-	
+
 	srand(time(NULL));
-	i = (size_t)rand() % assets->floor->count + 1;
-	while (assets->garlic->count < assets->floor->count / 7)
+	i = (size_t)rand() % assets->floor->count;
+	while (assets->garlic->count < assets->floor->count / 10)
 	{
-		ft_printf("random i: %d\n", i);
-		x = assets->floor->instances[i].x / TILE;
-		y = assets->floor->instances[i].y / TILE;
-		mlx_image_to_window(game->mlx_ptr, assets->garlic, x * TILE, y * TILE);
-		i = rand() % assets->floor->count + 1;
+		if ((assets->floor->instances[i].x / TILE) != game->p_x
+			&& (assets->floor->instances[i].y / TILE) != game->p_y)
+		{
+			x = assets->floor->instances[i].x / TILE;
+			y = assets->floor->instances[i].y / TILE;
+			mlx_image_to_window(game->mlx_ptr, assets->garlic,
+				x * TILE, y * TILE);
+		}
+		i = rand() % assets->floor->count;
 	}
 }

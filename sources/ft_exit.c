@@ -6,7 +6,7 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 10:02:07 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/21 12:34:22 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/25 09:04:11 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	destroy_garlic(t_game *game, t_assets *assets)
 			|| (garlic_x == game->p_x && garlic_y == game->p_y - 1))
 		{
 			assets->garlic->instances[i].enabled = false;
+			ft_printf("\033[96mHA!! Take that you nasty garlic! 🦇💪💪\n\033[0m");
 		}
 		i++;
 	}
-	ft_printf("\033[96mHA!! Take that you nasty garlic! 🦇💪💪\n\033[0m");
 }

@@ -6,7 +6,7 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 13:37:58 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/21 12:46:53 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/02/26 14:01:26 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ static void	check_x_and_y(t_game *game)
 		ft_printf("The map is too large to fit in one window 😔😔\n");
 		ft_printf("The max allowed width is %d ", WIDTH);
 		ft_printf("and height %d.\n", HEIGHT);
-		ft_printf("(%d and %d tiles).\n", (WIDTH / TILE), (HEIGHT / TILE));
+		ft_printf("(In tiles %d times %d", (WIDTH / TILE), (HEIGHT / TILE));
+		ft_printf(" - your map was %d times %d)\n", game->x, game->y);
 		ft_printf("Try again with a smaller map? 🥹🙏\n\033[0m");
 		clean_up(game);
 		exit(EXIT_FAILURE);
@@ -111,9 +112,9 @@ void	check_map(char *arg, t_game *game)
 			*ft_strchr(line, '\n') = '\0';
 		if (game->y == 0)
 			game->x = ft_strlen(line);
+		game->map[game->y] = line;
 		if (game->x != ft_strlen(line))
 			ft_error(8, game);
-		game->map[game->y] = line;
 		game->y++;
 	}
 	game->map[game->y] = NULL;
