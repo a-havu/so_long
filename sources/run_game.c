@@ -6,7 +6,7 @@
 /*   By: ahavu <ahavu@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:32:50 by ahavu             #+#    #+#             */
-/*   Updated: 2025/02/24 09:32:44 by ahavu            ###   ########.fr       */
+/*   Updated: 2025/03/03 09:49:33 by ahavu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,6 @@ void	run_game(t_game *game)
 	param[0] = game;
 	param[1] = assets;
 	mlx_key_hook(game->mlx_ptr, key_hook, param);
+	//mlx_close_hook(game->mlx_ptr, &ft_exit, NULL);
 	mlx_loop(game->mlx_ptr);
 }
